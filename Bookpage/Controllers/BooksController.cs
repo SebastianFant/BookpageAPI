@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Bookpage.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
@@ -34,6 +34,7 @@ namespace Bookpage.Controllers
         }
 
         // GET: api/Books/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook(int id)
         {
@@ -53,6 +54,7 @@ namespace Bookpage.Controllers
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBook(int id, Book book)
         {
@@ -84,6 +86,7 @@ namespace Bookpage.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook(Book book)
         {
@@ -98,6 +101,7 @@ namespace Bookpage.Controllers
         }
 
         // DELETE: api/Books/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
         {

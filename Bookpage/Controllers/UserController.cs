@@ -48,10 +48,10 @@ namespace Bookpage.Controllers
                         _configuration["Jwt:Issuer"],
                         _configuration["Jwt:Audience"],
                         claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
+                        expires: DateTime.UtcNow.AddMinutes(60),
                         signingCredentials: signIn);
-
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+                    var tokenstring = new JwtSecurityTokenHandler().WriteToken(token);
+                    return Ok(new UserDTO(user.Id, user.Name, tokenstring));
                 }
                 else
                 {

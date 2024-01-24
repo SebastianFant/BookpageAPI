@@ -30,15 +30,24 @@ namespace Bookpage.Controllers
           }
             return await _context.Quotes.ToListAsync();
         }
-
-        // GET: api/Quotes/5
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<IEnumerable<Quote>>> GetQuotesbyUser(int id)
+        {
+            if (_context.Quotes == null)
+            {
+                return NotFound();
+            }
+            Random rnd = new Random();
+            return await _context.Quotes.Where(u => u.User == id).ToListAsync();
+        }
+        //GET: api/Quotes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Quote>> GetQuote(int id)
         {
-          if (_context.Quotes == null)
-          {
-              return NotFound();
-          }
+            if (_context.Quotes == null)
+            {
+                return NotFound();
+            }
             var quote = await _context.Quotes.FindAsync(id);
 
             if (quote == null)
@@ -52,13 +61,17 @@ namespace Bookpage.Controllers
         // PUT: api/Quotes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuote(int id, Quote quote)
+        public async Task<IActionResult> PutQuote(int id, QuoteDTO quoteDTO)
         {
-            if (id != quote.Id)
+            if (id != quoteDTO.Id)
             {
                 return BadRequest();
             }
-
+            Quote quote = new Quote();
+            quote.Id = quoteDTO.Id;
+            quote.Text = quoteDTO.Text;
+            quote.Author = quoteDTO.Author;
+            quote.User = quoteDTO.User;
             _context.Entry(quote).State = EntityState.Modified;
 
             try
@@ -83,16 +96,22 @@ namespace Bookpage.Controllers
         // POST: api/Quotes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Quote>> PostQuote(Quote quote)
+        public async Task<ActionResult<Quote>> PostQuote(QuoteDTO quoteDTO)
         {
           if (_context.Quotes == null)
           {
               return Problem("Entity set 'BookpageContext.Quotes'  is null.");
           }
+            Quote quote = new Quote();
+            quote.Id = quoteDTO.Id;
+            quote.Text = quoteDTO.Text;
+            quote.Author = quoteDTO.Author;
+            quote.User = quoteDTO.User;
+            
             _context.Quotes.Add(quote);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetQuote", new { id = quote.Id }, quote);
+            return Ok(quote);
+            
         }
 
         // DELETE: api/Quotes/5
@@ -112,7 +131,7 @@ namespace Bookpage.Controllers
             _context.Quotes.Remove(quote);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool QuoteExists(int id)
