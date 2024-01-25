@@ -30,6 +30,8 @@ namespace Bookpage.Controllers
           {
               return NotFound();
           }
+          var books = await _context.Books.ToListAsync();
+            var book = books.FirstOrDefault();
             return await _context.Books.ToListAsync();
         }
 

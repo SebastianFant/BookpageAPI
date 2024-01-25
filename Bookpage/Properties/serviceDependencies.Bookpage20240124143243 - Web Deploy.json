@@ -3,6 +3,13 @@
     "apis1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/Bookpageapi/apis/Bookpage",
       "type": "apis.azure"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "",
+      "secretStore": "AzureAppSettings",
+      "type": "mssql.onprem",
+      "connectionId": "ConnectionStrings:BookpageDb",
+      "dynamicId": null
     }
   }
 }
